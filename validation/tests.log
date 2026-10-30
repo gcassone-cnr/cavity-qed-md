@@ -1,0 +1,43 @@
+test_analytic_joint_force (test_driver.DriverTests.test_analytic_joint_force) ... ok
+test_dipole_parser_uses_total_column (test_driver.DriverTests.test_dipole_parser_uses_total_column) ... ok
+test_double_failure_preserves_last_known_good_restart (test_driver.DriverTests.test_double_failure_preserves_last_known_good_restart) ... WARNING: restarted SCF failed; retrying this geometry from SAD; snapshot: /tmp/tmp7r1kdrvl/failures/call_000001_reference_restart_failed. Cause: eT failed with exit status 10; inspect /tmp/tmp7r1kdrvl/current
+ok
+test_energy_only_evaluation_omits_gradient_task (test_driver.DriverTests.test_energy_only_evaluation_omits_gradient_task) ... ok
+test_fake_et_subprocess_and_parsers (test_driver.DriverTests.test_fake_et_subprocess_and_parsers) ... ok
+test_finite_difference_nuclear_gradient (test_driver.DriverTests.test_finite_difference_nuclear_gradient) ... ok
+test_force_payload (test_driver.DriverTests.test_force_payload) ... ok
+test_probe_json_contains_forces_and_timing (test_driver.DriverTests.test_probe_json_contains_forces_and_timing) ... ok
+test_probe_q_option (test_driver.DriverTests.test_probe_q_option) ... ok
+test_render_converts_q_to_coherent_z (test_driver.DriverTests.test_render_converts_q_to_coherent_z) ... ok
+test_render_enables_restart_and_can_omit_gradient (test_driver.DriverTests.test_render_enables_restart_and_can_omit_gradient) ... ok
+test_restart_failure_falls_back_to_sad_and_keeps_snapshot (test_driver.DriverTests.test_restart_failure_falls_back_to_sad_and_keeps_snapshot) ... WARNING: restarted SCF failed; retrying this geometry from SAD; snapshot: /tmp/tmp5u30wlrr/failures/call_000001_reference_restart_failed. Cause: eT failed with exit status 9; inspect /tmp/tmp5u30wlrr/current
+ok
+test_sparse_snapshot_interval (test_driver.DriverTests.test_sparse_snapshot_interval) ... ok
+test_dft_template_is_rejected_for_cavity_md (test_workstation.WorkstationTests.test_dft_template_is_rejected_for_cavity_md) ... ok
+test_idle_socket_eof_and_truncated_message (test_workstation.WorkstationTests.test_idle_socket_eof_and_truncated_message) ... Probe energy: -76.00000000000000 Eh
+Nuclear gradient mode: analytic
+Photon coordinate q: 0.0000000000e+00 au
+Polarized dipole: 1.0000000000e+00 ea0
+Forces (atomic units):
+  O    0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+  H    0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+  H    0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+  L    0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+Probe JSON: /tmp/tmpv4cy2wlh/probe.json
+Connected to i-PI; waiting for coordinates
+i-PI closed the idle socket
+ok
+test_native_backend_restart_and_force_checks (test_workstation.WorkstationTests.test_native_backend_restart_and_force_checks) ... WARNING: restarted SCF failed; retrying this geometry from SAD; snapshot: /tmp/tmpsj3bv591/failures/call_000022_reference_restart_failed. Cause: eT failed with exit status 9; inspect /tmp/tmpsj3bv591/current
+ok
+test_real_ipi_eckart_socket_and_constraints (test_workstation.WorkstationTests.test_real_ipi_eckart_socket_and_constraints) ... skipped 'Execution environment prohibits UNIX sockets; run this test on the workstation'
+test_real_ipi_internal_harmonic_eckart (test_workstation.WorkstationTests.test_real_ipi_internal_harmonic_eckart) ... /workspace/scratch/5281e8143002/validation_deps/ipi/utils/softexit.py:134: DeprecationWarning: currentThread() is deprecated, use current_thread() instead
+  self._main = threading.currentThread()
+ok
+test_restart_preserves_photon_and_reference (test_workstation.WorkstationTests.test_restart_preserves_photon_and_reference) ... ok
+test_staging_rejects_eckart_fixed_dofs (test_workstation.WorkstationTests.test_staging_rejects_eckart_fixed_dofs) ... ok
+test_thermal_momenta_and_eckart_projection (test_workstation.WorkstationTests.test_thermal_momenta_and_eckart_projection) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 6.291s
+
+OK (skipped=1)

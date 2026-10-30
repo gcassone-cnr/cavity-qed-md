@@ -1,0 +1,8 @@
+{
+  "model": "i-PI internal harmonic force, not eT",
+  "steps": 30,
+  "timestep_fs": 0.1,
+  "eckart_position_residual_norm": 3.3527660449110994e-16,
+  "eckart_velocity_residual_norm": 1.080117954958632e-20,
+  "energy_peak_to_peak_eV": 3.0536900000002754e-05
+}

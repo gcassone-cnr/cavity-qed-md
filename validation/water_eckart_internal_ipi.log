@@ -1,0 +1,5 @@
+ @system: Initializing system object 
+ @simulation: Initializing simulation object 
+@ RANDOM SEED: The seed used in this calculation was 314159
+ @system.bind: Binding the forces 
+ @simulation.run: Average timings at MD step       0. t/step: 1.36230e-02
