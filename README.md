@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/cavity-qed-md-icon.png" width="160" alt="Cavity QED MD: a water molecule and standing wave between cavity mirrors">
+</p>
+
 # Cavity-QED Molecular Dynamics
 
 **An eT–i-PI interface for cavity Born–Oppenheimer molecular dynamics and joint nuclear–photon path-integral sampling.**
@@ -121,6 +125,7 @@ Both nuclei and the photon coordinate have eight beads in this supplied input. E
 | [Provenance](docs/RELEASE_PROVENANCE.md) | Original archive hashes and unchanged source inventory |
 | [Publishing](PUBLISHING.md) | Publish the repository and activate GitHub Pages |
 | [Licensing](LICENSES.md) | Preserved upstream license and remaining release decision |
+| [Logo assets](docs/LOGO.md) | Transparent wordmark and compact software emblem |
 
 PLUMED coupling is reported as implemented in the project discussion, but its current integration files were not present in the recovered bundles. It is not advertised as an executable example in this snapshot. CBO-DFT, correlated-method extensions, and reaction benchmarks are outside this distribution.
 
