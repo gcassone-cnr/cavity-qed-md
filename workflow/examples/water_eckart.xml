@@ -1,0 +1,50 @@
+<simulation verbosity="low">
+  <output prefix="traj">
+    <properties stride="1" filename="properties">[ step, time{femtosecond}, conserved{electronvolt}, potential{electronvolt}, kinetic_md{electronvolt} ]</properties>
+    <trajectory stride="1" filename="positions_au" format="xyz" cell_units="atomic_unit">positions{atomic_unit}</trajectory>
+    <trajectory stride="1" filename="dipole_xyz_au" extra_type="dipole_au">extras</trajectory>
+    <trajectory stride="1" filename="dipole_z_au" extra_type="polarized_dipole_au">extras</trajectory>
+    <checkpoint filename="checkpoint" stride="100" overwrite="True" />
+  </output>
+  <total_steps>100</total_steps>
+  <prng>
+    <seed>314159</seed>
+  </prng>
+  <ffsocket name="et-cbohf" mode="unix" matching="auto" pbc="false">
+    <address>et_cbohf</address>
+    <latency>0.001</latency>
+    <timeout>0</timeout>
+    <slots>1</slots>
+  </ffsocket>
+  <system>
+    <beads natoms="4" nbeads="1">
+      <q shape="(1, 12)">[ 0.0000000000000000e+00, 0.0000000000000000e+00, -1.4322234304844877e-01, 1.6380335028080999e+00, 0.0000000000000000e+00, 1.1365568808953561e+00, -1.6380335028080999e+00, 0.0000000000000000e+00, 1.1365568808953561e+00, 0.0000000000000000e+00, 0.0000000000000000e+00, 0.0000000000000000e+00 ]</q>
+      <p shape="(1, 12)">[ 1.9482272135513501e-01, 8.8817841970012523e-16, -1.2744771871820750e+00, 1.0716392056860529e+00, 4.4408920985006262e-16, 5.6113206991033560e-01, -1.2664619270411883e+00, -4.4408920985006262e-16, 7.1334511727173955e-01, -3.8631707733556675e-02, 0.0000000000000000e+00, 0.0000000000000000e+00 ]</p>
+      <m shape="(4)">[ 2.9165122266899998e+04, 1.8373622346900002e+03, 1.8373622346900002e+03, 1.0000000000000000e+00 ]</m>
+      <names shape="(4)">[ O, H, H, L ]</names>
+    </beads>
+    <cell shape="(3,3)">[ 7.8865112023929328e+01, 0.0000000000000000e+00, 0.0000000000000000e+00, 0.0000000000000000e+00, 7.8865112023929328e+01, 0.0000000000000000e+00, 0.0000000000000000e+00, 0.0000000000000000e+00, 7.8865112023929328e+01 ]</cell>
+    <forces>
+      <force forcefield="et-cbohf" />
+    </forces>
+    <motion mode="constrained_dynamics">
+      <fixcom>false</fixcom>
+      <constrained_dynamics mode="nve">
+        <timestep units="femtosecond">0.1</timestep>
+        <nsteps_geo>5</nsteps_geo>
+        <csolver>
+          <tolerance>1e-10</tolerance>
+          <maxit>1000</maxit>
+          <norm_order>2</norm_order>
+        </csolver>
+        <constraint mode="eckart">
+          <atoms>[ 0, 1, 2 ]</atoms>
+          <values units="atomic_unit">[ 0.0000000000000000e+00, 0.0000000000000000e+00, -1.4322234304844877e-01, 1.6380335028080999e+00, 0.0000000000000000e+00, 1.1365568808953561e+00, -1.6380335028080999e+00, 0.0000000000000000e+00, 1.1365568808953561e+00 ]</values>
+        </constraint>
+      </constrained_dynamics>
+    </motion>
+    <ensemble>
+      <temperature units="kelvin">300</temperature>
+    </ensemble>
+  </system>
+</simulation>
