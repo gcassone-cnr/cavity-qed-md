@@ -1,0 +1,10 @@
+{
+  "release_id": "2026-10-30-v4",
+  "gradient_patch_version": 4,
+  "source_generation": "automatic_before_cmake",
+  "default_method": "CBO-HF",
+  "default_with_dft": false,
+  "entry_document": "START_HERE.md",
+  "compiled_et_v4_validation": "maintainer_reported_success_2026-10-30",
+  "validation_evidence": "maintainer report; raw successful workstation logs not bundled"
+}
