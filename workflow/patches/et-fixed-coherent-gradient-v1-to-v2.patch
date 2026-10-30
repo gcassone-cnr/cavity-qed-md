@@ -1,0 +1,35 @@
+--- a/src/wavefunctions/qed_hf/qed_hf_class.F90
++++ b/src/wavefunctions/qed_hf/qed_hf_class.F90
+@@ -436,17 +436,12 @@
+                                                                        * sqrt(two / &
+                                                                        wf%qed%frequencies(mode)))
+ 
+-         ! The expression above assumes the stationary coherent displacement
+-         !
+-         !    z_opt = -<g>/omega = -<d>/sqrt(2*omega).
+-         !
+-         ! For a fixed displacement, add the difference between the explicit
+-         ! derivatives at z and z_opt. Both corrections vanish at z = z_opt,
+-         ! so the optimized QED-HF gradient is unchanged.
++         ! For a fixed coherent displacement, add the explicit derivatives
++         ! of 2 z g and omega z**2 S / N_e. The existing terms above contain
++         ! the dipole-self-energy contribution and require no correction.
+          if (.not. wf%qed%is_optimizing_bosons) then
+ 
+-            coherent_prefactor = two * wf%qed%coherent_states_z(mode) &
+-                                 + d_exp * sqrt(two / wf%qed%frequencies(mode))
++            coherent_prefactor = two * wf%qed%coherent_states_z(mode)
+ 
+             call wf%qed%construct_molecular_gradient_boson_interaction(wf%ao, &
+                                                                        E_qk, &
+@@ -454,8 +449,8 @@
+                                                                        mode, &
+                                                                        coherent_prefactor)
+ 
+-            overlap_prefactor = (wf%qed%frequencies(mode) * wf%qed%coherent_states_z(mode)**2 &
+-                                  - half * d_exp**2) / wf%qed%n_electrons
++            overlap_prefactor = wf%qed%frequencies(mode) * wf%qed%coherent_states_z(mode)**2 &
++                                / wf%qed%n_electrons
+ 
+             call wf%construct_1e_molecular_gradient(E_qk, &
+                                                     'overlap', &

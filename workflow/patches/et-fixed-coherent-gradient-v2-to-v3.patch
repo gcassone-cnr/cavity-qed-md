@@ -1,0 +1,52 @@
+--- a/src/wavefunctions/qed_hf/qed_hf_class.F90
++++ b/src/wavefunctions/qed_hf/qed_hf_class.F90
+@@ -336,9 +336,10 @@
+       real(dp), dimension(3, wf%n_atomic_centers), intent(out) :: E_qk  ! Molecular gradient
+ 
+       real(dp), dimension(:, :), allocatable :: d_wx, Sinv, D, Dv, d_Sinv, D_d, D_d_Dv, p1
++      real(dp), dimension(:, :, :, :), allocatable :: g_wxqk
+       ! p1 refers to the last parentheses in the gradient expression: (S^-1 da D da S^-1 - <da>**2/Ne D)
+ 
+-      integer :: mode
++      integer :: mode, q, k
+       real(dp), external :: ddot
+ 
+       real(dp) :: d_exp, coherent_prefactor, overlap_prefactor
+@@ -368,6 +369,7 @@
+       call mem%alloc(D_d, wf%ao%n, wf%ao%n)
+       call mem%alloc(D_d_Dv, wf%ao%n, wf%ao%n)
+       call mem%alloc(p1, wf%ao%n, wf%ao%n)
++      call mem%alloc(g_wxqk, wf%ao%n, wf%ao%n, 3, wf%n_atomic_centers)
+ 
+       do mode = 1, wf%qed%n_modes
+ 
+@@ -443,11 +445,16 @@
+ 
+             coherent_prefactor = two * wf%qed%coherent_states_z(mode)
+ 
+-            call wf%qed%construct_molecular_gradient_boson_interaction(wf%ao, &
+-                                                                       E_qk, &
+-                                                                       wf%ao_density, &
+-                                                                       mode, &
+-                                                                       coherent_prefactor)
++            call wf%qed%get_ao_electron_boson_interaction_1der(g_wxqk, mode)
++
++            do k = 1, wf%n_atomic_centers
++               do q = 1, 3
++
++                  E_qk(q, k) = E_qk(q, k) + coherent_prefactor &
++                               * ddot(wf%ao%n**2, wf%ao_density, 1, g_wxqk(:, :, q, k), 1)
++
++               end do
++            end do
+ 
+             overlap_prefactor = wf%qed%frequencies(mode) * wf%qed%coherent_states_z(mode)**2 &
+                                 / wf%qed%n_electrons
+@@ -469,6 +476,7 @@
+       call mem%dealloc(D_d)
+       call mem%dealloc(D_d_Dv)
+       call mem%dealloc(p1)
++      call mem%dealloc(g_wxqk)
+ 
+       call timer%turn_off()
+ 
