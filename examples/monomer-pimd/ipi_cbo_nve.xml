@@ -1,0 +1,54 @@
+<simulation verbosity='high'>
+  <output prefix='h2o_cbohf'>
+    <properties stride='1' filename='properties'>
+      [ step, time{femtosecond}, conserved{electronvolt}, temperature{kelvin},
+        kinetic_md{electronvolt}, potential{electronvolt} ]
+    </properties>
+
+    <!-- Atomic-unit output keeps the L.x value numerically equal to q. -->
+    <trajectory filename='positions_au' stride='10' format='xyz'
+                cell_units='atomic_unit'> positions{atomic_unit} </trajectory>
+    <checkpoint filename='checkpoint' stride='50' overwrite='True'/>
+  </output>
+
+  <!-- 100 x 0.1 fs = 10 fs: a validation trajectory, not production MD. -->
+  <total_steps>100</total_steps>
+
+  <prng>
+    <seed>314159</seed>
+  </prng>
+
+  <ffsocket name='et-cbohf' mode='unix' pbc='false'>
+    <address>h2o_cbohf</address>
+    <latency>0.01</latency>
+    <timeout>0</timeout>
+  </ffsocket>
+
+  <system>
+    <initialize nbeads='1'>
+      <file mode='xyz' units='angstrom'> h2o_cbo_init.xyz </file>
+      <cell mode='abc' units='angstrom'> [20.0, 20.0, 20.0] </cell>
+      <velocities mode='thermal' units='kelvin'> 300 </velocities>
+    </initialize>
+
+    <forces>
+      <force forcefield='et-cbohf'></force>
+    </forces>
+
+    <motion mode='dynamics'>
+      <!--
+        H2O occupies Cartesian DOFs 0..8. L.x (DOF 9) is q; the two
+        unused pseudo-atom coordinates (DOFs 10 and 11) are frozen.
+      -->
+      <fixcom>false</fixcom>
+      <fixatoms_dof>[10, 11]</fixatoms_dof>
+      <dynamics mode='nve'>
+        <timestep units='femtosecond'>0.1</timestep>
+      </dynamics>
+    </motion>
+
+    <ensemble>
+      <temperature units='kelvin'>300</temperature>
+    </ensemble>
+  </system>
+</simulation>

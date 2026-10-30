@@ -1,0 +1,58 @@
+<simulation verbosity='high'>
+  <output prefix='h2o_cbohf_pimd'>
+    <properties stride='1' filename='properties'>
+      [ step, time{femtosecond}, conserved{electronvolt},
+        temperature{kelvin}, potential{electronvolt},
+        kinetic_cv{electronvolt}, r_gyration{atomic_unit} ]
+    </properties>
+
+    <!-- The fourth entry of each frame is L; its x coordinate is q. -->
+    <trajectory filename='centroid_au' stride='10' format='xyz'
+                cell_units='atomic_unit'> x_centroid{atomic_unit} </trajectory>
+    <trajectory filename='beads_au' stride='10' format='xyz'
+                cell_units='atomic_unit'> positions{atomic_unit} </trajectory>
+    <checkpoint filename='checkpoint' stride='50' overwrite='True'/>
+  </output>
+
+  <!-- 100 x 0.1 fs = 10 fs: an eight-bead equilibrium PIMD smoke test. -->
+  <total_steps>100</total_steps>
+
+  <prng>
+    <seed>314159</seed>
+  </prng>
+
+  <ffsocket name='et-cbohf' mode='unix' matching='auto' pbc='false'>
+    <address>h2o_cbohf</address>
+    <latency>0.01</latency>
+    <timeout>0</timeout>
+    <slots>8</slots>
+  </ffsocket>
+
+  <system>
+    <!-- All nuclear coordinates and L.x are replicated across eight beads. -->
+    <initialize nbeads='8'>
+      <file mode='xyz' units='angstrom'> h2o_cbo_init.xyz </file>
+      <cell mode='abc' units='angstrom'> [20.0, 20.0, 20.0] </cell>
+      <velocities mode='thermal' units='kelvin'> 300 </velocities>
+    </initialize>
+
+    <forces>
+      <force forcefield='et-cbohf'></force>
+    </forces>
+
+    <motion mode='dynamics'>
+      <fixcom>false</fixcom>
+      <fixatoms_dof>[10, 11]</fixatoms_dof>
+      <dynamics mode='nvt'>
+        <timestep units='femtosecond'>0.1</timestep>
+        <thermostat mode='pile_g'>
+          <tau units='femtosecond'>25</tau>
+        </thermostat>
+      </dynamics>
+    </motion>
+
+    <ensemble>
+      <temperature units='kelvin'>300</temperature>
+    </ensemble>
+  </system>
+</simulation>
