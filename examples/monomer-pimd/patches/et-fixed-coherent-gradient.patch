@@ -1,0 +1,94 @@
+--- a/src/wavefunctions/qed_hf/qed_hf_class.F90
++++ b/src/wavefunctions/qed_hf/qed_hf_class.F90
+@@ -306,6 +306,7 @@
+    subroutine construct_molecular_gradient_qed_hf(wf, E_qk)
+       !!
+       !! Written by Marcus T. Lexander, Tor S. Haugland, 2022
++      !! Extended for fixed coherent states by OpenAI Codex, Jul 2026
+       !!
+       !! Constructs the molecular gradient,
+       !!
+@@ -335,12 +336,13 @@
+       real(dp), dimension(3, wf%n_atomic_centers), intent(out) :: E_qk  ! Molecular gradient
+ 
+       real(dp), dimension(:, :), allocatable :: d_wx, Sinv, D, Dv, d_Sinv, D_d, D_d_Dv, p1
++      real(dp), dimension(:, :, :, :), allocatable :: g_wxqk
+       ! p1 refers to the last parentheses in the gradient expression: (S^-1 da D da S^-1 - <da>**2/Ne D)
+ 
+-      integer :: mode
++      integer :: mode, q, k
+       real(dp), external :: ddot
+ 
+-      real(dp) :: d_exp
++      real(dp) :: d_exp, coherent_prefactor, overlap_prefactor
+ 
+       type(timings) :: timer
+ 
+@@ -367,6 +369,7 @@
+       call mem%alloc(D_d, wf%ao%n, wf%ao%n)
+       call mem%alloc(D_d_Dv, wf%ao%n, wf%ao%n)
+       call mem%alloc(p1, wf%ao%n, wf%ao%n)
++      call mem%alloc(g_wxqk, wf%ao%n, wf%ao%n, 3, wf%n_atomic_centers)
+ 
+       do mode = 1, wf%qed%n_modes
+ 
+@@ -422,8 +425,11 @@
+ 
+          d_exp = two * ddot(wf%ao%n**2, D, 1, d_wx, 1)
+ 
+-         ! Adding <d>**2 / N_e D to get (-S^-1 d D d S^-1 + <d>**2 / N_e D)
+-         call daxpy(wf%ao%n**2, d_exp**2 / wf%qed%n_electrons, D, 1, p1, 1)
++         ! The <d>**2 overlap term belongs to the optimized coherent
++         ! displacement. Fixed displacement uses its actual omega*z**2 below.
++         if (wf%qed%is_optimizing_bosons) then
++            call daxpy(wf%ao%n**2, d_exp**2 / wf%qed%n_electrons, D, 1, p1, 1)
++         end if
+ 
+          call wf%construct_1e_molecular_gradient(E_qk, 'overlap', p1)
+ 
+@@ -434,6 +440,37 @@
+                                                                     two &
+                                                                        * sqrt(two / &
+                                                                        wf%qed%frequencies(mode)))
++
++         ! The optimized-displacement formula above cancels the dipole
++         ! Hartree term against the optimized bilinear interaction. At fixed
++         ! displacement restore its derivative together with 2 z g and the
++         ! actual omega z**2 S / N_e contribution. Use the full interaction
++         ! derivative, including the direct nuclear-dipole derivative.
++         if (.not. wf%qed%is_optimizing_bosons) then
++
++            coherent_prefactor = two * wf%qed%coherent_states_z(mode) &
++                                 + sqrt(two / wf%qed%frequencies(mode)) * d_exp
++
++            call wf%qed%get_ao_electron_boson_interaction_1der(g_wxqk, mode)
++
++            do k = 1, wf%n_atomic_centers
++               do q = 1, 3
++
++                  E_qk(q, k) = E_qk(q, k) + coherent_prefactor &
++                               * ddot(wf%ao%n**2, wf%ao_density, 1, g_wxqk(:, :, q, k), 1)
++
++               end do
++            end do
++
++            overlap_prefactor = wf%qed%frequencies(mode) * wf%qed%coherent_states_z(mode)**2 &
++                                / wf%qed%n_electrons
++
++            call wf%construct_1e_molecular_gradient(E_qk, &
++                                                    'overlap', &
++                                                    wf%ao_density, &
++                                                    overlap_prefactor)
++
++         end if
+ 
+       end do
+ 
+@@ -445,6 +482,7 @@
+       call mem%dealloc(D_d)
+       call mem%dealloc(D_d_Dv)
+       call mem%dealloc(p1)
++      call mem%dealloc(g_wxqk)
+ 
+       call timer%turn_off()
+ 

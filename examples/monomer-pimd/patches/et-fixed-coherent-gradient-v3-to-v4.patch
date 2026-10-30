@@ -1,0 +1,36 @@
+--- a/src/wavefunctions/qed_hf/qed_hf_class.F90
++++ b/src/wavefunctions/qed_hf/qed_hf_class.F90
+@@ -425,8 +425,11 @@
+ 
+          d_exp = two * ddot(wf%ao%n**2, D, 1, d_wx, 1)
+ 
+-         ! Adding <d>**2 / N_e D to get (-S^-1 d D d S^-1 + <d>**2 / N_e D)
+-         call daxpy(wf%ao%n**2, d_exp**2 / wf%qed%n_electrons, D, 1, p1, 1)
++         ! The <d>**2 overlap term belongs to the optimized coherent
++         ! displacement. Fixed displacement uses its actual omega*z**2 below.
++         if (wf%qed%is_optimizing_bosons) then
++            call daxpy(wf%ao%n**2, d_exp**2 / wf%qed%n_electrons, D, 1, p1, 1)
++         end if
+ 
+          call wf%construct_1e_molecular_gradient(E_qk, 'overlap', p1)
+ 
+@@ -438,12 +441,15 @@
+                                                                        * sqrt(two / &
+                                                                        wf%qed%frequencies(mode)))
+ 
+-         ! For a fixed coherent displacement, add the explicit derivatives
+-         ! of 2 z g and omega z**2 S / N_e. The existing terms above contain
+-         ! the dipole-self-energy contribution and require no correction.
++         ! The optimized-displacement formula above cancels the dipole
++         ! Hartree term against the optimized bilinear interaction. At fixed
++         ! displacement restore its derivative together with 2 z g and the
++         ! actual omega z**2 S / N_e contribution. Use the full interaction
++         ! derivative, including the direct nuclear-dipole derivative.
+          if (.not. wf%qed%is_optimizing_bosons) then
+ 
+-            coherent_prefactor = two * wf%qed%coherent_states_z(mode)
++            coherent_prefactor = two * wf%qed%coherent_states_z(mode) &
++                                 + sqrt(two / wf%qed%frequencies(mode)) * d_exp
+ 
+             call wf%qed%get_ao_electron_boson_interaction_1der(g_wxqk, mode)
+ 
