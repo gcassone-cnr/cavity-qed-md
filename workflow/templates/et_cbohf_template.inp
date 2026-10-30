@@ -1,0 +1,32 @@
+- system
+  charge: 0
+  multiplicity: 1
+
+- do
+  ground state
+
+- method
+  qed-hf
+
+- boson
+  interaction type: photon
+  modes: 1
+  frequency: {@@FREQUENCY@@}
+  polarization: {@@POL_X@@, @@POL_Y@@, @@POL_Z@@}
+  coupling: {@@COUPLING@@}
+  coherent state: {@@COHERENT_Z@@}
+
+- solver scf
+  algorithm: scf-diis
+  energy threshold: 1.0d-10
+  residual threshold: 1.0d-9
+  max iterations: 200
+
+- hf mean value
+  dipole
+  molecular gradient
+
+- geometry
+  units: bohr
+  basis: aug-cc-pVDZ
+@@GEOMETRY_BOHR@@
