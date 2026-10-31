@@ -7,7 +7,7 @@ Suggested repository name: **cavity-qed-md**. Suggested description:
 ## Before a formal release
 
 1. Compare the preserved source snapshot with the current working workstation directory, particularly any later eT patches and PLUMED files.
-2. Add the agreed author list, contact, interface license and citation metadata. Preserve all upstream licenses and author notices.
+2. Select and record the interface license. Preserve all upstream licenses and author notices. Citation metadata for the accompanying manuscript is already recorded in `CITATION.cff`, the README and the website; add its permanent ChemRxiv identifier after posting.
 3. Attach real-eT force-validation results and representative NVE/PIMD logs to the version they validate.
 
 The files can be reviewed privately before choosing public visibility. This package does not include a made-up public URL or claim a tagged production release.
@@ -35,6 +35,8 @@ The website's source download is served from `docs/downloads/cavity-qed-md-sourc
 Official instructions: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 
 ## Maintain the download
+
+After posting the manuscript on ChemRxiv, add its verified DOI and public URL to `CITATION.cff` (under `preferred-citation`), `docs/cavity-qed-md.bib`, the README citation section and the website's `#citation` section. Update the unpublished status and BibTeX entry consistently with the ChemRxiv record, preserving the published title and author order.
 
 After editing source or documentation, run:
 

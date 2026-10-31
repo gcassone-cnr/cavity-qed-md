@@ -10,6 +10,8 @@
 
 Maintained by Giuseppe Cassone. This repository distributes the corrected v4 eT–i-PI CBO-HF implementation with its matching source snapshot, examples and reproducibility checks.
 
+**Using the code in your research? Please [cite the accompanying paper](#cite-and-credit).**
+
 **Gradient correction v4:** a reported nonzero-coupling nuclear-force mismatch was traced to missing fixed-displacement DSE derivatives. The corrected patch is included for new installations and existing v1/v2/v3 source. See [the diagnosis, independent molecular checks and upgrade commands](docs/GRADIENT_FIX_V4.md). Rebuild and validate the corrected eT executable before dynamics.
 
 ## What is included
@@ -131,4 +133,21 @@ PLUMED coupling is reported as implemented in the project discussion, but its cu
 
 ## Cite and credit
 
-Credit the eT, i-PI and integral-library developers alongside the interface and any associated scientific publication. Preserve upstream author notices. No software DOI or preprint identifier has been assigned in these files. Add the agreed author list, release license, and permanent identifier before the formal public release; see [PUBLISHING.md](PUBLISHING.md).
+If you use **Cavity-QED Molecular Dynamics** in your research, please cite the accompanying paper:
+
+> Giuseppe Cassone. *Cavity-QED Molecular Dynamics: An eT–i-PI Interface for Ab Initio Cavity Born–Oppenheimer Dynamics and Joint Nuclear–Photon Path-Integral Sampling.* 2026. Manuscript prepared for ChemRxiv.
+
+The manuscript has not yet been posted on ChemRxiv. Its DOI and public link will be added after posting. Until then, the following entry identifies the unpublished manuscript:
+
+```bibtex
+@unpublished{cassone2026cavityqedmd,
+  author = {Cassone, Giuseppe},
+  title = {{Cavity-QED Molecular Dynamics}: An {eT}--{i-PI} Interface for Ab Initio Cavity {Born--Oppenheimer} Dynamics and Joint {Nuclear--Photon} Path-Integral Sampling},
+  year = {2026},
+  note = {Unpublished manuscript prepared for ChemRxiv; not yet posted}
+}
+```
+
+[Download BibTeX](docs/cavity-qed-md.bib). The repository's **Cite this repository** panel uses [CITATION.cff](CITATION.cff), which selects this manuscript as the preferred citation.
+
+Please also cite the relevant eT, i-PI and integral-library publications and preserve upstream author notices. Citation metadata does not change the distribution's licensing; see [LICENSES.md](LICENSES.md).
