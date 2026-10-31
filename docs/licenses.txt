@@ -6,4 +6,4 @@ i-PI, libcint, optional LibXC, and Python dependencies retain their respective u
 
 The recovered interface/workflow files did not contain a separate top-level license grant. This preparation preserves their status and does not silently assign a license or change copyright ownership. Before a formal public software release, the maintainers should select and record the license for their own contributions. GPL-3.0 is a candidate consistent with the bundled eT source; confirm the intended scope with all contribution owners.
 
-The software and scientific-method author lists, contact address, citation metadata and publication identifiers should be supplied by the maintainers. This package does not invent coauthors or a DOI.
+Please cite the accompanying Giuseppe Cassone manuscript identified in the README, CITATION.cff and the website's citation section. It is prepared for ChemRxiv and has not yet been posted; its DOI and public link will be added after posting. This citation request does not alter the upstream licenses or supply a separate interface license grant.
