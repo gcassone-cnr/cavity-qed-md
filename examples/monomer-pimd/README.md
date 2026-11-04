@@ -136,7 +136,22 @@ The PIMD files are:
 - `h2o_cbohf_pimd.centroid_au_0.xyz`;
 - `h2o_cbohf_pimd.beads_au_0.xyz` through `_7.xyz`.
 
-This PILE-G input samples an equilibrium quantum distribution. Its thermostat
+The input uses **PILE-L** with a centroid thermostat time of **25 fs**:
+
+```xml
+<thermostat mode='pile_l'>
+  <tau units='femtosecond'>25</tau>
+</thermostat>
+```
+
+PILE-L applies local Langevin thermostatting to the active centroid degrees of
+freedom, including the photon coordinate, while thermostatting the internal
+ring-polymer modes. This gives the photon centroid its own thermalization,
+which is useful when it exchanges energy only weakly with the nuclei. See the
+[i-PI thermostat definitions](https://docs.ipi-code.org/input-tags.html#thermostat).
+Start a fresh run with this XML; an old checkpoint retains its stored thermostat.
+
+This PILE-L input samples an equilibrium quantum distribution. Its thermostat
 trajectory is not a physical real-time spectrum; RPMD/TRPMD needs a separate
 dynamics protocol after equilibration.
 

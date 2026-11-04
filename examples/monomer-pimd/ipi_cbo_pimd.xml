@@ -45,7 +45,8 @@
       <fixatoms_dof>[10, 11]</fixatoms_dof>
       <dynamics mode='nvt'>
         <timestep units='femtosecond'>0.1</timestep>
-        <thermostat mode='pile_g'>
+        <!-- Local centroid Langevin thermostat, including the photon L.x. -->
+        <thermostat mode='pile_l'>
           <tau units='femtosecond'>25</tau>
         </thermostat>
       </dynamics>
