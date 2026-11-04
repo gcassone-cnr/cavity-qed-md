@@ -104,7 +104,7 @@ Installation/build logs are in `$HOME/opt/et-ipi-v4/logs/install.log`; executabl
 
 ## Joint nuclear–photon PIMD
 
-The original PIMD example is preserved under `examples/monomer-pimd/`, with its own driver, README, tests, templates and launcher. It has different defaults from the newer workstation workflow: polarization along y, frequency 0.01666 a.u., coupling 0.005 a.u., and aug-cc-pVDZ.
+The monomer PIMD example is under `examples/monomer-pimd/`, with its own driver, README, tests, templates and launcher. It has different defaults from the newer workstation workflow: polarization along y, frequency 0.01666 a.u., coupling 0.005 a.u., and aug-cc-pVDZ.
 
 From the repository root, after building the patched eT executable:
 
@@ -115,7 +115,7 @@ python3 -m unittest discover -s tests -v
 IPI_INPUT=ipi_cbo_pimd.xml ET_CLIENTS=8 ET_THREADS=1 bash run.sh
 ```
 
-Both nuclei and the photon coordinate have eight beads in this supplied input. Eight beads are a demonstration setting; establish bead convergence. Its PILE-G trajectory samples equilibrium and is not a physical real-time spectrum. The legacy example uses the fixed socket `h2o_cbohf`; run one copy at a time unless its XML and launcher are edited consistently.
+Both nuclei and the photon coordinate have eight beads in this supplied input. It uses **PILE-L** (`mode='pile_l'`, `tau=25 fs`), giving the photon centroid its own local Langevin thermalization. Eight beads are a demonstration setting; establish bead convergence. Its thermostatted trajectory samples equilibrium and is not a physical real-time spectrum. Start a fresh run with the updated XML; an old checkpoint retains its stored thermostat. The legacy example uses the fixed socket `h2o_cbohf`; run one copy at a time unless its XML and launcher are edited consistently.
 
 ## Documentation
 
