@@ -40,6 +40,8 @@ The two source trees are intentionally preserved separately. Their default outpu
 
 In the supplied PIMD input both nuclei and q are replicated over the ring polymer. A one-bead simulation and a many-bead simulation therefore change the treatment of both sectors. Separate nuclear, photonic and mixed quantum effects require additional matched protocols; they cannot be inferred from that comparison alone.
 
+The monomer PIMD example uses PILE-L (`pile_l`) with a 25 fs centroid thermostat time. Local Langevin thermostatting acts on each active centroid degree of freedom, including q, and PILE thermostats the internal ring-polymer modes. This gives the photon centroid its own thermalization when energy exchange with the nuclei is weak. See the [i-PI thermostat definitions](https://docs.ipi-code.org/input-tags.html#thermostat).
+
 The eight-bead, 10 fs input is a software demonstration. Production equilibrium observables require bead, electronic-model and sampling convergence. A thermostatted PIMD trajectory is not an exact real-time quantum dynamics trajectory. The supplied IR and q analysis scripts require suitable real-time trajectories and correct sample spacing.
 
 Global Eckart NVE constrains the nuclear center of mass and overall rotation relative to a reference, leaving internal molecular/cluster motion active and excluding the photon from the nuclear group. With fixed cavity polarization, this changes the allowed rotational motion. The recovered Eckart path is restricted to one bead and NVE; Eckart PIMD/NVT are not advertised here.
