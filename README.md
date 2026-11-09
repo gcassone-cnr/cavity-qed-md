@@ -6,28 +6,21 @@
 
 **An eT–i-PI interface for cavity Born–Oppenheimer molecular dynamics and joint nuclear–photon path-integral sampling.**
 
-**Start with [START_HERE.md](START_HERE.md)** for the complete consolidated v4 installation. This archive includes both the automatic eT source-generation fix and the complete gradient correction; separate repair downloads are unnecessary.
+[Project website](https://gcassone-cnr.github.io/cavity-qed-md/) · [Installation](START_HERE.md) · [Source download](https://gcassone-cnr.github.io/cavity-qed-md/downloads/cavity-qed-md-source.tar.gz) · [Cite the arXiv article](#cite-and-credit)
 
-Maintained by Giuseppe Cassone. This repository distributes the corrected v4 eT–i-PI CBO-HF implementation with its matching source snapshot, examples and reproducibility checks.
+Maintained by Giuseppe Cassone.
 
-**Using the code in your research? Please [cite the arXiv article](#cite-and-credit).**
+## Features
 
-**Gradient correction v4:** a reported nonzero-coupling nuclear-force mismatch was traced to missing fixed-displacement DSE derivatives. The corrected patch is included for new installations and existing v1/v2/v3 source. See [the diagnosis, independent molecular checks and upgrade commands](docs/GRADIENT_FIX_V4.md). Rebuild and validate the corrected eT executable before dynamics.
+- Fixed-displacement CBO-HF with analytic nuclear and photon forces.
+- Classical NVT and NVE for water monomers and clusters, with one-bead global Eckart NVE.
+- Joint nuclear–photon PIMD with PILE-L thermostatting.
+- SCF continuation and recovery, OpenMP in eT, and concurrent bead evaluations.
+- Force checks, backend comparisons, and analysis of dipoles, spectra and energy conservation.
 
-## What is included
+## Install and validate
 
-- The fixed-coherent-state eT nuclear-gradient patch and its matching eT source snapshot.
-- An i-PI socket client with analytic nuclear and photon forces, SCF restart, cold fallback, and rolling scratch.
-- A workstation installer, monomer and 21-water examples, ordinary NVT/NVE preparation, and one-bead global Eckart NVE.
-- The separate recovered monomer example for joint nuclear–photon PIMD.
-- Force checks, backend comparisons, performance summaries, IR and photon-coordinate analysis tools.
-- A self-contained [GitHub Pages website](docs/index.html) with a source download.
-
-**Release status:** on 30 October 2026, the maintainer confirmed that the corrected v4 installation and documented test workflow work on his workstation. Interface tests and independent molecular gradient checks are included. Repeat the compiled-engine checks on each target installation; production scientific observables require their own convergence tests. See [validation](docs/VALIDATION.md).
-
-## Install and validate the corrected v4 workflow
-
-Target: Ubuntu 22.04/24.04 on an x86-64 CPU, Python 3.10–3.12, GNU compilers and LP64 OpenBLAS. Internet access is required for dependencies. All project sources and corrections are in this archive; manual repair patches are unnecessary.
+The installer targets Ubuntu 22.04 or 24.04 on an x86-64 CPU with Python 3.10–3.12, GNU compilers and LP64 OpenBLAS. It downloads pinned dependencies and builds the supplied eT source with the v4 gradient correction.
 
 ### 1. Install system prerequisites
 
@@ -37,19 +30,9 @@ sudo apt install -y build-essential gfortran git patch pkg-config unzip \
   python3 python3-venv python3-dev libopenblas-pthread-dev liblapack-dev
 ```
 
-### 2. Extract the final ZIP into a fresh source directory
+### 2. Extract the source archive
 
-Save `cavity-qed-md-final.zip` in `~/Downloads`, then run:
-
-```bash
-unzip "$HOME/Downloads/cavity-qed-md-final.zip" -d "$HOME/cavity-qed-v4"
-cd "$HOME/cavity-qed-v4/cavity-qed-md"
-sha256sum -c SHA256SUMS
-```
-
-Use a new extraction directory rather than overlaying an older source tree. Every checksum should report `OK`. A GitHub clone can start from its repository root instead of extracting the ZIP.
-
-For the website's `cavity-qed-md-source.tar.gz` download, use this extraction alternative instead of the ZIP commands:
+Download [cavity-qed-md-source.tar.gz](https://gcassone-cnr.github.io/cavity-qed-md/downloads/cavity-qed-md-source.tar.gz) to `~/Downloads`, then run:
 
 ```bash
 mkdir -p "$HOME/cavity-qed-v4"
@@ -57,6 +40,8 @@ tar -xzf "$HOME/Downloads/cavity-qed-md-source.tar.gz" -C "$HOME/cavity-qed-v4"
 cd "$HOME/cavity-qed-v4/cavity-qed-md"
 sha256sum -c SHA256SUMS
 ```
+
+Use a fresh source directory and confirm that every checksum reports `OK`. For a Git checkout, run the build commands from the repository root.
 
 ### 3. Build the corrected CBO-HF installation
 
@@ -119,17 +104,14 @@ Both nuclei and the photon coordinate have eight beads in this supplied input. I
 
 ## Documentation
 
-| File | Purpose |
+| Guide | Contents |
 |---|---|
-| [Method](docs/METHOD.md) | Coordinates, force conventions and scientific scope |
-| [Installation](docs/INSTALLATION.md) | Complete installation and workstation reference |
-| [Validation](docs/VALIDATION.md) | Checks performed here and real-engine acceptance steps |
-| [Provenance](docs/RELEASE_PROVENANCE.md) | Original archive hashes and unchanged source inventory |
-| [Publishing](PUBLISHING.md) | Publish the repository and activate GitHub Pages |
-| [Licensing](LICENSES.md) | Preserved upstream license and remaining release decision |
-| [Logo assets](docs/LOGO.md) | Transparent wordmark and compact software emblem |
+| [Installation](docs/INSTALLATION.md) | Dependencies, build and example runs |
+| [Method](docs/METHOD.md) | CBO-HF model, coordinates and force conventions |
+| [Validation](docs/VALIDATION.md) | Electronic force checks and software regression tests |
+| [Licensing](LICENSES.md) | License and attribution information |
 
-PLUMED coupling is reported as implemented in the project discussion, but its current integration files were not present in the recovered bundles. It is not advertised as an executable example in this snapshot. CBO-DFT, correlated-method extensions, and reaction benchmarks are outside this distribution.
+The supplied workflows cover finite molecular systems with one explicit cavity mode on a CBO-HF surface.
 
 ## Cite and credit
 
