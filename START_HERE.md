@@ -1,22 +1,6 @@
-# Complete corrected source package — v4
+# Quick start
 
-This folder contains the matching eT source archive, the eT–i-PI drivers,
-MD/PIMD examples, analysis tools, documentation and all corrections discussed
-in the installation session. No earlier package or separately downloaded
-repair patch is needed.
-
-The installer automatically applies the complete v4 fixed-displacement
-nuclear-gradient patch and generates eT's required Fortran sources before
-CMake configuration. The default installation is CBO-HF.
-
-This is a source distribution for Ubuntu 22.04/24.04 and Python 3.10–3.12.
-Compilers and system libraries are required; Internet access is needed to
-fetch the pinned Python dependencies and libcint. It is not a precompiled
-or offline installation image.
-
-## Installation steps
-
-Target: Ubuntu 22.04/24.04 on an x86-64 CPU, Python 3.10–3.12, GNU compilers and LP64 OpenBLAS. Internet access is required for dependencies. All project sources and corrections are in this archive; manual repair patches are unnecessary.
+Install Cavity-QED Molecular Dynamics on Ubuntu 22.04 or 24.04 with an x86-64 CPU, Python 3.10–3.12, GNU compilers and LP64 OpenBLAS. The installer downloads pinned dependencies and builds the patched eT executable.
 
 ### 1. Install system prerequisites
 
@@ -26,19 +10,9 @@ sudo apt install -y build-essential gfortran git patch pkg-config unzip \
   python3 python3-venv python3-dev libopenblas-pthread-dev liblapack-dev
 ```
 
-### 2. Extract the final ZIP into a fresh source directory
+### 2. Extract the source archive
 
-Save `cavity-qed-md-final.zip` in `~/Downloads`, then run:
-
-```bash
-unzip "$HOME/Downloads/cavity-qed-md-final.zip" -d "$HOME/cavity-qed-v4"
-cd "$HOME/cavity-qed-v4/cavity-qed-md"
-sha256sum -c SHA256SUMS
-```
-
-Use a new extraction directory rather than overlaying an older source tree. Every checksum should report `OK`. A GitHub clone can start from its repository root instead of extracting the ZIP.
-
-For the website's `cavity-qed-md-source.tar.gz` download, use this extraction alternative instead of the ZIP commands:
+Download [cavity-qed-md-source.tar.gz](https://gcassone-cnr.github.io/cavity-qed-md/downloads/cavity-qed-md-source.tar.gz) to `~/Downloads`, then run:
 
 ```bash
 mkdir -p "$HOME/cavity-qed-v4"
@@ -46,6 +20,8 @@ tar -xzf "$HOME/Downloads/cavity-qed-md-source.tar.gz" -C "$HOME/cavity-qed-v4"
 cd "$HOME/cavity-qed-v4/cavity-qed-md"
 sha256sum -c SHA256SUMS
 ```
+
+Use a fresh source directory and confirm that every checksum reports `OK`. For a Git checkout, run the build commands from the repository root.
 
 ### 3. Build the corrected CBO-HF installation
 
@@ -91,16 +67,6 @@ Outputs are under `$HOME/opt/et-ipi-v4/workflow/runs/water_smoke/`, including `i
 
 Installation/build logs are in `$HOME/opt/et-ipi-v4/logs/install.log`; executable and gradient-source identities are recorded in `installation.json` under the same prefix. The correction's independent molecular checks are documented in [GRADIENT_FIX_V4.md](docs/GRADIENT_FIX_V4.md). The rebuilt eT executable still requires the target-machine validation above.
 
-## Included verification
+## Further reading
 
-- 27 interface tests passed; one full socket test is skipped where UNIX
-  sockets are prohibited.
-- Clean source generation, upgrade from v3 and repeated v4 application passed.
-- An independent molecular CBO-HF calculation reproduced the reported old
-  nuclear-force mismatch; the corrected algebra agreed with energy differences
-  below 1e-9 a.u. for nonzero-coupling q = 0 and 0.5 monomer checks.
-
-The maintainer confirmed the corrected v4 installation and documented test workflow
-as working on 30 October 2026. Repeat the target-machine checks in step 4 for each
-installation. See `docs/GRADIENT_FIX_V4.md` and `docs/VALIDATION.md` for evidence
-and limits; raw workstation logs are not bundled.
+See the [installation guide](docs/INSTALLATION.md) for cluster examples and the [validation guide](docs/VALIDATION.md) for force checks and scientific scope.

@@ -1,6 +1,6 @@
 # Method and coordinate conventions
 
-The recovered client evaluates a single-mode fixed-displacement QED-HF electronic surface using eT. i-PI propagates or samples the nuclei and one explicit photon coordinate. Electronic relaxation is carried out at each requested nuclear/photon configuration.
+The client evaluates a single-mode fixed-displacement QED-HF electronic surface using eT. i-PI propagates or samples the nuclei and one explicit photon coordinate. Electronic relaxation is carried out at each requested nuclear/photon configuration.
 
 ## Nuclear and photon coordinates
 
@@ -14,7 +14,7 @@ The client maps q to eT's fixed coherent displacement through
 z = q\sqrt{\omega/2}.
 ```
 
-For the recovered sign convention the photon derivative is
+With this sign convention, the photon force is
 
 ```math
 F_q = -\omega^2q - \omega\lambda\langle\boldsymbol\mu\cdot\mathbf e\rangle.
@@ -22,7 +22,7 @@ F_q = -\omega^2q - \omega\lambda\langle\boldsymbol\mu\cdot\mathbf e\rangle.
 
 The electronic calculation supplies the complete energy for this implementation, including the photon harmonic and dipole-self-energy contributions. The driver must not add a second photon harmonic energy. The included fixed-coherent-state patch supplies the additional nuclear derivative terms on this path. These statements describe the supplied implementation; the force-check suite tests energy–derivative consistency on the target executable.
 
-Use ordinary i-PI `ffsocket`. Adding a separate `ffcavphsocket` model would introduce additional cavity terms. This snapshot is designed for the supplied nonperiodic finite systems (`pbc=false`); it is not a validated periodic bulk-water implementation.
+Use ordinary i-PI `ffsocket`. Adding a separate `ffcavphsocket` model would introduce additional cavity terms. The supplied examples use nonperiodic finite systems (`pbc=false`).
 
 ## Defaults differ between preserved workflows
 
@@ -32,7 +32,7 @@ Use ordinary i-PI `ffsocket`. Adding a separate `ffcavphsocket` model would intr
 | Frequency | 0.0187505 a.u. | 0.01666 a.u. |
 | Coupling | 0.01 a.u. | 0.005 a.u. |
 | Default basis | cc-pVDZ, tight SCF | aug-cc-pVDZ |
-| Main purpose | Monomer/cluster NVT/NVE and one-bead Eckart NVE | Original monomer NVE and joint PIMD |
+| Main purpose | Monomer/cluster NVT/NVE and one-bead Eckart NVE | Monomer NVE and joint PIMD |
 
 The two source trees are intentionally preserved separately. Their default outputs are not a controlled classical/quantum comparison. Match the physical parameters and electronic model before estimating a quantum correction.
 
@@ -44,6 +44,4 @@ The monomer PIMD example uses PILE-L (`pile_l`) with a 25 fs centroid thermostat
 
 The eight-bead, 10 fs input is a software demonstration. Production equilibrium observables require bead, electronic-model and sampling convergence. A thermostatted PIMD trajectory is not an exact real-time quantum dynamics trajectory. The supplied IR and q analysis scripts require suitable real-time trajectories and correct sample spacing.
 
-Global Eckart NVE constrains the nuclear center of mass and overall rotation relative to a reference, leaving internal molecular/cluster motion active and excluding the photon from the nuclear group. With fixed cavity polarization, this changes the allowed rotational motion. The recovered Eckart path is restricted to one bead and NVE; Eckart PIMD/NVT are not advertised here.
-
-Charged clusters, multiple modes, loss models, driven cavities, PLUMED integration and quantitative reaction-rate calculations need their own explicit source, conventions and validation before being added to a release.
+Global Eckart NVE constrains the nuclear center of mass and overall rotation relative to a reference, leaving internal molecular/cluster motion active and excluding the photon from the nuclear group. With fixed cavity polarization, this changes the allowed rotational motion. The Eckart workflow supports one-bead NVE.
