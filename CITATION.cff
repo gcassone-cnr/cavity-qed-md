@@ -1,8 +1,7 @@
 cff-version: 1.2.0
 message: >-
-  If you use Cavity-QED Molecular Dynamics in your research, please cite the
-  accompanying manuscript specified below. It is prepared for ChemRxiv and
-  has not yet been posted; the DOI and public link will be added after posting.
+  If you use Cavity-QED Molecular Dynamics in your work, please cite the
+  arXiv article below.
 type: software
 title: Cavity-QED Molecular Dynamics
 authors:
@@ -12,12 +11,13 @@ version: 2026-10-30-v4
 repository-code: https://github.com/gcassone-cnr/cavity-qed-md
 url: https://gcassone-cnr.github.io/cavity-qed-md/
 preferred-citation:
-  type: unpublished
+  type: article
   authors:
     - family-names: Cassone
       given-names: Giuseppe
   title: >-
-    Cavity-QED Molecular Dynamics: An eT–i-PI Interface for Ab Initio Cavity
-    Born–Oppenheimer Dynamics and Joint Nuclear–Photon Path-Integral Sampling
+    Cavity-QED Molecular Dynamics: An eT-i-PI Interface for Ab Initio Cavity
+    Born-Oppenheimer Dynamics and Joint Nuclear-Photon Path-Integral Sampling
   year: 2026
-  notes: Unpublished manuscript prepared for ChemRxiv; not yet posted.
+  journal: "arXiv preprint arXiv:2611.09667"
+  url: https://arxiv.org/abs/2611.09667
