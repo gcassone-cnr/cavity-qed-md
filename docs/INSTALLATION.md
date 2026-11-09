@@ -1,14 +1,8 @@
-> Adapted from the original 18 September installation document for the prepared source tree. The original text is retained as `ORIGINAL_INSTALLATION.md` at the repository root.
+# Installation and example runs
 
-**Corrected v4 installation — 30 October 2026**
+The installer builds eT with the fixed-displacement CBO-HF gradient patch and installs the pinned i-PI environment. The workflow includes monomer and 21-water cluster examples for classical NVT, NVE and one-bead global Eckart NVE. The source archive also includes a joint nuclear–photon PIMD example.
 
-The README and `START_HERE.md` at the repository root provide the numbered installation and first-run steps. The sections below add workstation and cluster details.
-
-This bundle assembles the recovered eT source, its fixed-coherent-state gradient patch, the optimized CBO-HF driver, and the recovered i-PI Eckart compatibility wrapper. The new launcher supports a monomer or a 21-water cluster without hard-coded atom indices. It provides classical, one-bead global Eckart NVE and ordinary NVT/NVE workflows.
-
-The installer targets **Ubuntu 22.04/24.04 on an x86-64 CPU workstation**, with Python 3.10–3.12, GNU compilers, and OpenBLAS. It needs Internet access to download the pinned dependencies. It includes the matching eT source archive; no old workstation files are required. It builds for the local CPU, so rebuild on a different workstation rather than copying its executable.
-
-**Validation status:** workflow regression tests and real i-PI 3.2.0 harmonic Eckart tests were run here. The electronic eT build and real electronic forces could not be tested in this execution environment because a Fortran compiler was unavailable. UNIX socket creation was also prohibited; the complete socket smoke test is included and runs during installation on the workstation. Read `validation/REPORT.md` for the exact scope. Installation success alone is not a validation of CBO forces or production trajectories.
+Install on Ubuntu 22.04 or 24.04 with an x86-64 CPU, Python 3.10–3.12, GNU compilers and LP64 OpenBLAS. Internet access is required to fetch the pinned dependencies. Build on each target machine so the executable matches its CPU and libraries.
 
 **1. Install the system prerequisites**
 
@@ -22,16 +16,9 @@ sudo apt install -y build-essential gfortran git patch pkg-config unzip \
 
 Use the LP64 OpenBLAS package, not an ILP64/64-bit-integer replacement. The installer sets eT's default integers to 32 bits to match it. This follows eT's [build configuration requirements](https://etprogram.org/setup.html).
 
-**2. Build from the prepared source tree**
+**2. Build from the source archive**
 
-For the final ZIP saved in `~/Downloads`, extract into a fresh source directory:
-
-```bash
-unzip "$HOME/Downloads/cavity-qed-md-final.zip" -d "$HOME/cavity-qed-v4"
-cd "$HOME/cavity-qed-v4/cavity-qed-md"
-```
-
-For the website's tar.gz download, use this alternative:
+Download [cavity-qed-md-source.tar.gz](https://gcassone-cnr.github.io/cavity-qed-md/downloads/cavity-qed-md-source.tar.gz) to `~/Downloads` and extract it into a fresh directory.
 
 ```bash
 mkdir -p "$HOME/cavity-qed-v4"
@@ -80,7 +67,7 @@ Choose a thread count available on your workstation. Without `--all-nuclear`, th
 
 **4. Run a short 21-water Eckart test**
 
-The recovered `examples/water21.xyz` contains 63 real nuclei and a final `L` particle. To use your own configuration, supply an XYZ with 64 rows in the desired nuclear order and `L` last. Nuclear coordinates are in angstrom; **L.x is q in atomic units**, while L.y and L.z are zero. The photon mass is set to one electron mass. The molecular orientation is retained; cavity polarization is laboratory z.
+The supplied `examples/water21.xyz` contains 63 real nuclei and a final `L` particle. To use your own configuration, supply an XYZ with 64 rows in the desired nuclear order and `L` last. Nuclear coordinates are in angstrom; **L.x is q in atomic units**, while L.y and L.z are zero. The photon mass is set to one electron mass. The molecular orientation is retained; cavity polarization is laboratory z.
 
 Generate an explicit input, then launch it:
 
@@ -200,7 +187,7 @@ A future CBO-DFT extension must define its energy functional and self-polarizati
 
 **9. Analysis and troubleshooting**
 
-The recovered `analysis/` directory includes IR, photon-coordinate spectra, replica averaging and peak plots. Use `--help` on the individual tools. Output spacing is `timestep × trajectory stride`; the generated inputs use stride 1 unless changed. For example:
+The `analysis/` directory includes IR, photon-coordinate spectra, replica averaging and peak plots. Use `--help` on the individual tools. Output spacing is `timestep × trajectory stride`; the generated inputs use stride 1 unless changed. For example:
 
 ```bash
 python3 analysis/ir_spectrum.py runs/water21_nve/traj.dipole_z_au_0 \
